@@ -1,0 +1,310 @@
+# Introduction
+
+This document describes a reseller extensions mapping for version
+1.0 of the Extensible Provisioning Protocol (EPP).  This mapping is
+specified using the Extensible Markup Language (XML) 1.0 as described
+in [](#W3C.REC-xml-20040204) and XML Schema notation as described in
+[](#W3C.REC-xmlschema-1-20041028) and [](#W3C.REC-xmlschema-2-20041028).
+
+[](#RFC5730) provides a complete description of EPP command and response
+structures.  A thorough understanding of the base protocol
+specification is necessary to understand the mapping described in
+this document.
+
+XML is case sensitive.  Unless stated otherwise, XML specifications
+and examples provided in this document MUST be interpreted in the
+character case presented to develop a conforming implementation.
+
+## Conventions Used in This Document
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in [](#RFC2119).
+
+In examples, "C:" represents lines sent by a protocol client and "S:"
+represents lines returned by a protocol server.  Indentation and
+white space in examples are provided only to illustrate element
+relationships and are not a REQUIRED feature of this protocol.
+
+# EPP Command Mapping
+
+A detailed description of the EPP syntax and semantics can be found
+in the EPP core protocol specification [](#RFC5730).  The command
+mappings described here are specifically for use in provisioning and
+managing DNS security extensions via EPP.
+
+## EPP Query Commands
+
+EPP provides three commands to retrieve object information: \<check\>
+to determine if an object is known to the server, \<info\> to retrieve
+detailed information associated with an object, and \<transfer\> to
+retrieve object transfer status information.
+
+### EPP \<check\> Command
+
+This extension does not add any elements to the EPP \<check\> command
+or \<check\> response described in the EPP domain mapping [](#RFC5731).
+
+### EPP \<info\> Command
+
+This extension does not add any elements to the EPP \<info\> command
+described in the EPP domain mapping [](#RFC5731).  However, additional
+elements are defined for the \<info\> response.
+
+When an \<info\> command has been processed successfully, the EPP
+\<resData\> element MUST contain child elements as described in the EPP
+domain mapping [](#RFC5731).  In addition, the EPP \<extension\> element
+SHOULD contain a child \<resellerExt:infData\> element that identifies 
+the extension namespace if the domain object has data associated with
+this extension and based on server policy.  The \<resellerExt:infData\>
+element contains the following child elements:
+
+-  An OPTIONAL \<resellerExt:id\> element that indicates a child's
+  reference.
+
+Example \<info\> Response for a domain object with reseller object:
+
+    S:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    S:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    S:     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    S:  <response>
+    S:    <result code="1000">
+    S:      <msg>Command completed successfully</msg>
+    S:    </result>
+    S:    <resData>
+    S:      <domain:infData
+    S:       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+    S:        <domain:name>example.com</domain:name>
+    S:        <domain:roid>EXAMPLE1-REP</domain:roid>
+    S:        <domain:status s="ok"/>
+    S:        <domain:registrant>jd1234</domain:registrant>
+    S:        <domain:contact type="admin">sh8013</domain:contact>
+    S:        <domain:contact type="tech">sh8013</domain:contact>
+    S:        <domain:ns>
+    S:          <domain:hostObj>ns1.example.com</domain:hostObj>
+    S:          <domain:hostObj>ns2.example.com</domain:hostObj>
+    S:        </domain:ns>
+    S:        <domain:host>ns1.example.com</domain:host>
+    S:        <domain:host>ns2.example.com</domain:host>
+    S:        <domain:clID>ClientX</domain:clID>
+    S:        <domain:crID>ClientY</domain:crID>
+    S:        <domain:crDate>1999-04-03T22:00:00.0Z</domain:crDate>
+    S:        <domain:upID>ClientX</domain:upID>
+    S:        <domain:upDate>1999-12-03T09:00:00.0Z</domain:upDate>
+    S:        <domain:exDate>2005-04-03T22:00:00.0Z</domain:exDate>
+    S:        <domain:trDate>2000-04-08T09:00:00.0Z</domain:trDate>
+    S:        <domain:authInfo>
+    S:          <domain:pw>2fooBAR</domain:pw>
+    S:        </domain:authInfo>
+    S:      </domain:infData>
+    S:    </resData>
+    S:    <extension>
+    S:      <resellerExt:infData
+    S:       xmlns:resellerExt="urn:ietf:params:xml:ns:sidn-ext-epp-reseller-1.0">
+    S:        <resellerExt:id>rs1234</resellerExt:id>
+    S:      </resellerExt:infData>
+    S:    </extension>
+    S:    <trID>
+    S:      <clTRID>ABC-12345\</clTRID>
+    S:      <svTRID>54322-XYZ\</svTRID>
+    S:    </trID>
+    S:  </response>
+    S:</epp>
+
+An EPP error response MUST be returned if an \<info\> command cannot be
+processed for any reason.
+
+### EPP \<transfer\> Command
+
+This extension does not add any elements to the EPP \<transfer\>
+command or \<transfer\> response described in the EPP domain mapping
+[RFC5731].
+
+## EPP Transform Commands
+
+EPP provides five commands to transform objects: \<create\> to create
+an instance of an object, \<delete\> to delete an instance of an
+object, \<renew\> to extend the validity period of an object,
+\<transfer\> to manage object sponsorship changes, and \<update\> to
+change information associated with an object.
+
+### EPP \<create\> Command
+
+This extension defines additional elements for the EPP \<create\>
+command described in the EPP domain mapping [](#RFC5731).  No additional
+elements are defined for the EPP \<create\> response.
+
+The EPP \<create\> command provides a transform operation that allows a
+client to create a domain object.  In addition to the EPP command
+elements described in the EPP domain mapping [](#RFC5731), the command
+MUST contain an \<extension\> element, and the \<extension\> element MUST
+contain a child \<resellerExt:create\> element that identifies the extension
+namespace if the client wants to associate data defined in this
+extension to the domain object.  The \<resellerExt:create\> element contains
+the following child elements:
+
+-  An OPTIONAL \<resellerExt:id\> element that contains the server-unique 
+  identifier for the created reseller.
+
+Example \<create\> Command with creating a link to a reseller object:
+
+    C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    C: xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    C:  <command>
+    C:    <create>
+    C:      <domain:create
+    C:       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+    C:        <domain:name>example.com</domain:name>
+    C:        <domain:period unit="y">2</domain:period>
+    C:        <domain:ns>
+    C:          <domain:hostObj>ns1.example.com</domain:hostObj>
+    C:          <domain:hostObj>ns2.example.com</domain:hostObj>
+    C:        </domain:ns>
+    C:        <domain:registrant>jd1234</domain:registrant>
+    C:        <domain:contact type="admin">sh8013\</domain:contact>
+    C:        <domain:contact type="tech">sh8013\</domain:contact>
+    C:        <domain:authInfo>
+    C:          <domain:pw>2fooBAR</domain:pw>
+    C:        </domain:authInfo>
+    C:      </domain:create>
+    C:    </create>
+    C:    <extension>
+    C:      <resellerExt:create-reference
+    C:       xmlns:resellerExt="urn:ietf:params:xml:ns:sidn-ext-epp-reseller-1.0">
+    C:        <resellerExt:id>rs1234</resellerExt:id>
+    C:      </resellerExt:create-reference>
+    C:    </extension>
+    C:    <clTRID>ABC-12345</clTRID>
+    C:  </command>
+    C:</epp>
+
+When a \<create\> command has been processed successfully, the EPP
+response is as described in the EPP domain mapping [](#RFC5731).
+
+### EPP \<delete\> Command
+
+This extension does not add any elements to the EPP \<delete\> command
+or \<delete\> response described in the EPP domain mapping [](#RFC5731).
+
+### EPP \<renew\> Command
+
+This extension does not add any elements to the EPP \<renew\> command
+or \<renew\> response described in the EPP domain mapping [](#RFC5731).
+
+### EPP \<transfer\> Command
+
+This extension does not add any elements to the EPP \<transfer\>
+command or \<transfer\> response described in the EPP domain mapping
+[](#RFC5731).
+
+### EPP \<update\> Command
+
+This extension defines additional elements for the EPP \<update\>
+command described in the EPP domain mapping [](#RFC5731).  No additional
+elements are defined for the EPP \<update\> response.
+
+The EPP \<update\> command provides a transform operation that allows a
+client to modify the attributes of a domain object.  In addition to
+the EPP command elements described in the EPP domain mapping, the
+command MUST contain an \<extension\> element, and the \<extension\>
+element MUST contain a child \<resellerExt:update\> element that 
+identifies the extension namespace if the client wants to update 
+the domain object with data defined in this extension.  The 
+\<resellerExt:update\> element contains a \<resellerExt:add\> element to
+add or remove a reference to a reseller object. At least one of the
+\<resellerExt:rem\>, or \<resellerExt:add\> element MUST be provided.
+The order of the \<resellerExt:rem\> and \<resellerExt:add\> elements is
+significant, where the server MUST first remove the existing elements
+prior to adding new elements.
+
+The \<resellerExt:update\> element contains the following child elements:
+
+-  An OPTIONAL \<resellerExt:rem\> element that contains a 
+  \<resellerExt:id\> element that is used to remove the reference to
+  a reseller object.
+
+-  An OPTIONAL \<resellerExt:add\> element that is used to add a reference
+  to a reseller object.
+
+Example \<update\> Adding and Removing references to a reseller object:
+
+    C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+    C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+    C:     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    C:  <command>
+    C:    <update>
+    C:      <domain:update
+    C:       xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
+    C:        <domain:name>example.com</domain:name>
+    C:      </domain:update>
+    C:    </update>
+    C:    <extension>
+    C:      <resellerExt:update
+    C:       xmlns:resellerExt="urn:ietf:params:xml:ns:sidn-ext-epp-reseller-1.0">
+    C:        <resellerExt:rem>
+    C:          <resellerExt:id>rs1234</resellerExt:id>
+    C:        </resellerExt:rem>
+    C:        <resellerExt:add>
+    C:          <resellerExt:id>rs5678</resellerExt:id>
+    C:        </resellerExt:add>
+    C:      </resellerExt:update>
+    C:    </extension>
+    C:    <clTRID>ABC-12345</clTRID>
+    C:  </command>
+    C:</epp>
+
+When an extended \<update\> command has been processed successfully,
+the EPP response is as described in the EPP domain mapping [](#RFC5731).
+
+# Formal Syntax
+
+An EPP object mapping is specified in XML Schema notation.  The
+formal syntax presented here is a complete schema representation of
+the object mapping suitable for automated validation of EPP XML
+instances.  
+
+    <<insert XML schema sidn-ext-reseller-1.0.xsd here!>>
+   
+# Internationalization Considerations
+
+All date-time values presented via EPP MUST be expressed in Universal
+Coordinated Time using the Gregorian calendar.  The XML Schema allows
+use of time zone identifiers to indicate offsets from the zero
+meridian, but this option MUST NOT be used with EPP.  The extended
+date-time form using upper case "T" and "Z" characters defined in
+[](#W3C.REC-xmlschema-2-20041028) MUST be used to represent date-time
+values, as the XML Schema does not support truncated date-time forms
+or lower case "T" and "Z" characters.
+
+# IANA considerations
+
+This document uses URNs to describe XML namespaces and XML schemas
+conforming to a registry mechanism described in [](#RFC3688).
+
+Two URI assignments must be completed by the IANA.
+
+Registration request for the extension namespace:
+URI: urn:ietf:params:xml:ns:sidn-ext-epp-reseller-1.0
+Registrant Contact: IESG
+XML: None.  Namespace URIs do not represent an XML specification.
+
+Registration request for the extension XML schema:
+URI: urn:ietf:params:xml:schema:sidn-ext-epp-reseller-1.0
+Registrant Contact: IESG
+XML: See the "Formal Syntax" section of this document.
+   
+# Security Considerations
+
+The object mapping described in this document does not provide any
+other security services or introduce any additional considerations
+beyond those described by [](#RFC5730) or those caused by the protocol
+layers used by EPP.
+
+# Acknowledgements
+
+We like to thank the following individuals for their valuable input,
+review, constructive criticism in earlier revisions or support for
+the concepts described in this document:
+
+James Gould.

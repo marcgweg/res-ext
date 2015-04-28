@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<!DOCTYPE rfc SYSTEM 'rfc2629.dtd' [
+    <!ENTITY pandocAbstract PUBLIC '' 'abstract.xml'>
+    <!ENTITY pandocMiddle   PUBLIC '' 'middle.xml'>
+    <!ENTITY pandocBack     PUBLIC '' 'back.xml'>
+
+    <!ENTITY xml            PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xml-20040204.xml'>
+    <!ENTITY xmlschema1     PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xmlschema-1-20041028.xml'>
+    <!ENTITY xmlschema2     PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml4/reference.W3C.REC-xmlschema-2-20041028.xml'>
+    <!ENTITY rfc2119        PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml'>
+    <!ENTITY rfc3688        PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml'>
+    <!ENTITY rfc5730        PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5730.xml'>
+    <!ENTITY rfc5731        PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5731.xml'>
+]>
+
+<rfc ipr="trust200902" category="std" docName="draft-ietf-eppext-reseller-00">
+<?rfc toc="yes"?>         <!-- generate a table of contents -->
+<?rfc symrefs="yes"?>     <!-- use anchors instead of numbers for references -->
+<?rfc sortrefs="yes" ?>   <!-- alphabetize the references -->
+<?rfc compact="yes" ?>    <!-- conserve vertical whitespace -->
+<?rfc subcompact="no" ?>  <!-- but keep a blank line between list items -->
+	<front>
+	    <title abbrev="EPP Reseller Extension">Extensible Provisioning Protocol (EPP) Reseller Extensions Mapping</title>
+
+        <author initials="M.W." surname="Groeneweg"
+                fullname="Marc Groeneweg">
+            <organization>SIDN</organization>
+            <address>
+                <postal>
+                    <street>Meander 501</street>
+                    <city>Arnhem</city> <region></region>
+                    <code>6825 MD</code>
+                    <country>NL</country>
+                </postal>
+                <email>marc.groeneweg@sidn.nl</email>
+                <uri>https://www.sidn.nl/</uri>
+            </address>
+        </author>
+		<author initials="H.W." surname="Ribbers"
+                fullname="Rik Ribbers">
+            <organization>SIDN</organization>
+            <address>
+                <postal>
+                    <street>Meander 501</street>
+                    <city>Arnhem</city> <region></region>
+                    <code>6825 MD</code>
+                    <country>NL</country>
+                </postal>
+                <email>rik.ribbers@sidn.nl</email>
+                <uri>https://www.sidn.nl/</uri>
+            </address>
+        </author>
+
+        <date month="April" year="2015" day="30"/>
+
+        <area>Application</area>
+        <workgroup>eppext</workgroup>
+        <keyword>Extensible Provisioning Protocol</keyword>
+        <abstract>
+            &pandocAbstract;
+        </abstract>
+</front>
+
+<middle>
+&pandocMiddle;
+</middle>
+
+<back>
+    <references title="Normative References">
+        &xml;
+        &xmlschema1;
+        &xmlschema2;
+        &rfc2119;
+        &rfc3688;
+        &rfc5730;
+        &rfc5731;
+    </references>
+    &pandocBack;
+</back>
+</rfc>
