@@ -13,7 +13,7 @@
     <!ENTITY rfc5731        PUBLIC '' 'http://xml.resource.org/public/rfc/bibxml/reference.RFC.5731.xml'>
 ]>
 
-<rfc ipr="trust200902" category="std" docName="draft-ietf-eppext-reseller-00">
+<rfc ipr="trust200902" category="std" docName="draft-ietf-eppext-reseller-ext-00">
 <?rfc toc="yes"?>         <!-- generate a table of contents -->
 <?rfc symrefs="yes"?>     <!-- use anchors instead of numbers for references -->
 <?rfc sortrefs="yes" ?>   <!-- alphabetize the references -->
