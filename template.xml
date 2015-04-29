@@ -50,6 +50,20 @@
                 <uri>https://www.sidn.nl/</uri>
             </address>
         </author>
+        <author initials="T." surname="Leloux"
+                fullname="Theo Leloux">
+            <organization>SIDN</organization>
+            <address>
+                <postal>
+                    <street>Meander 501</street>
+                    <city>Arnhem</city> <region></region>
+                    <code>6825 MD</code>
+                    <country>NL</country>
+                </postal>
+                <email>theo.leloux@sidn.nl</email>
+                <uri>https://www.sidn.nl/</uri>
+            </address>
+        </author>
 
         <date month="April" year="2015" day="30"/>
 
